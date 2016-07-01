@@ -1,0 +1,111 @@
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Try Django 1.9{% endblock title %}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    {% block head_extra %}{% endblock head_extra %}
+</head>
+
+<body>
+
+{% include 'messages.html' %}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="{% url "posts:list" %}">Home</a></li>
+        {% block post_detail_link %}
+        {% endblock %}
+        {% if request.user.is_authenticated %}
+            <li class="pull-right"><a href="{% url "logout" %}">Logout</a></li>
+        {% else %}
+            <li class="pull-right"><a href="{% url "register" %}">Register</a></li>
+            <li class="pull-right"><a href="{% url "login" %}">Login</a></li>
+        {% endif %}
+
+    </ol>
+
+{% block content %}
+
+
+{% endblock content %}
+</div>
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/uk_UA/sdk.js#xfbml=1&version=v2.6";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- jQuery -->
+<script   src="http://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".content-markdown").each(function(){
+            var content = $(this).text();
+            var markedContent = marked(content);
+            $(this).html(markedContent);
+        });
+        $(".post-detail-item img").each(function(){
+            $(this).addClass("img-responsive");
+        });
+
+
+        $(".comment-reply-btn").click(function(event){
+            event.preventDefault();
+            $(this).parent().next(".comment-reply").fadeToggle();
+        })
+
+        var contentItem = $("#id_content");
+        function setContent(value) {
+            var markedContent = marked(value);
+            $("#preview-content").html(markedContent);
+            $("#preview-content img").each(function(){
+                $(this).addClass("img-responsive");
+            })
+        }
+        setContent(contentItem.val().replace(/\n/g, "<br>\n"));
+
+        contentItem.keyup(function(){
+            content = $(this).val();
+            new_content = content.replace(/\n/g, "<br>\n");
+            console.log(new_content);
+            setContent(new_content)
+        });
+
+        var titleItem = $("#id_title");
+        function setTitle(value) {
+            var markedTitle = marked(value);
+            $("#preview-title").html(markedTitle);
+        }
+        setTitle(titleItem.val());
+
+        titleItem.keyup(function(){
+            new_title = $(this).val();
+            setTitle(new_title)
+        });
+    })
+</script>
+</body>
+</html>
+
+
