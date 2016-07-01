@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 
 from .models import Comment
 from .forms import CommentForm
+from posts.models import Post
 
 
 @login_required
@@ -44,6 +45,10 @@ def comment_thread(request, id=None):
     if not obj.is_parent:
         obj = obj.is_parent
 
+    post_id = obj.object_id
+    post = Post.objects.filter(id=post_id)
+    post = post.first()
+
     initial_data = {
         "content_type": obj.content_type,
         "object_id": obj.object_id
@@ -79,6 +84,7 @@ def comment_thread(request, id=None):
         "comment": obj,
         "title": "Comment thread",
         "comment_form": form,
+        "instance": post,
 
     }
     return render(request, "comment_thread.html", context)

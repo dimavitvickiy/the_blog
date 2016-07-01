@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import (login_view, register_view, logout_view)
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^comments/', include("comments.urls", namespace='comments')),

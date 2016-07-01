@@ -144,7 +144,15 @@ def posts_update(request, slug=None):
 def posts_delete(request, slug=None):
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
+
     instance = get_object_or_404(Post, slug=slug)
-    instance.delete()
-    messages.success(request, "Successfully deleted")
-    return redirect("posts:list")
+    if request.method == "POST":
+        instance.delete()
+        messages.success(request, "Successfully deleted")
+        return HttpResponseRedirect("/")
+
+    context = {
+        "object": instance,
+        "title": "Delete post",
+    }
+    return render(request, "confirm_delete.html", context)

@@ -6,7 +6,7 @@
 {% endblock title %}
 
 {% block content %}
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-8 col-sm-offset-2">
         <h1>Confirm delete</h1>
         <form method="post" action=""> {%  csrf_token %}
             <p>Are you sure to delete: "{{ object.content }}" ?</p>

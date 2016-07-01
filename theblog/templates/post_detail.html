@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-8 col-sm-offset-2">
 
     {% if instance.image %}
     <img src="{{ instance.image.url }}" class="img-responsive"/>
@@ -22,6 +22,13 @@
         <span style="color:orange">Future post</span>
         {% endif %}
         <small>{{instance.publish }}</small>
+
+        <small>{% if request.user.is_stuff or request.user.is_superuser %}
+                | <a href="{{ instance.get_update_url }}">Edit</a>
+                | <a href="{{ instance.get_delete_url }}">Delete</a>
+        {% endif %}
+        </small>
+
     </h1>
     <p>Read time :
         {% if instance.read_time <= 1 %} < 1 minute

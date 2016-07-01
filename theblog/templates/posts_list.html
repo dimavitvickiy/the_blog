@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-8 col-sm-offset-2">
 <h1>Posts list</h1>
 <form method="get" action="">
     <div class="row">
@@ -16,7 +16,6 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="submit">Search <i class="fa fa-search"></i></button>
                 </span>
-
             </div>
         </div>
     </div>
@@ -46,7 +45,7 @@
                 Author: {{obj.user.get_full_name}}<br>
                 {% endif %}
 
-            {{ obj.get_markdown|truncatechars_html:9 }}
+            {{ obj.get_markdown|truncatechars_html:15 }}
             <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p>
             </div>
         </div>
