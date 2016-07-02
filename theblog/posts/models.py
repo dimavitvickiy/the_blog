@@ -53,7 +53,7 @@ class Post(models.Model):
         return reverse("posts:update", kwargs={"slug": self.slug})
 
     class Meta:
-        ordering = ['-timestamp', '-update']
+        ordering = ['-update']
 
     def get_markdown(self):
         content = self.content

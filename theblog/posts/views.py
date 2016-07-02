@@ -32,6 +32,7 @@ def posts_create(request):
         else:
             messages.error(request, "Not Created")
     context = {
+        "button_name": "Create post",
         "form": form,
         "title": "Create new post"
     }
@@ -101,7 +102,7 @@ def posts_list(request):
                 Q(user__first_name__icontains=query) |
                 Q(user__last_name__icontains=query)
         )
-
+    qs_length = len(queryset_list)
     paginator = Paginator(queryset_list, 10) # Show 10 contacts per page
     page_request_var = "page"
     page = request.GET.get(page_request_var)
@@ -116,6 +117,7 @@ def posts_list(request):
     today = timezone.now().date()
 
     context = {
+        "len": qs_length,
         "queryset": queryset,
         "page_request_var": page_request_var,
         "today": today
@@ -134,6 +136,7 @@ def posts_update(request, slug=None):
         messages.success(request, "Saved")
         return HttpResponseRedirect(instance.get_absolute_url())
     context = {
+        "button_name": "Edit post",
         "title": "Edit post",
         "instance": instance,
         "form": form

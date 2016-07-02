@@ -14,16 +14,26 @@
 
 <div class="col-sm-6">
     <h1>Form</h1>
+    <hr>
     <form method="post" action="" enctype="multipart/form-data"> {% csrf_token %}
         {{ form|crispy }}
-        <input class="btn btn-default" type="submit" value="Create post"/>
+        <input class="btn btn-success" type="submit" value="{{ button_name }}"/>
+
+        <a href="
+            {% if instance %}
+            {{ instance.get_absolute_url }}
+            {% else %}
+            {% url "posts:list" %}
+            {% endif %}" class="btn btn-default">Cancel
+        </a>
     </form>
 </div>
 
 <div class="col-sm-6">
     <h1>Preview</h1>
+    <hr>
     <div class="content-preview">
-        <h3 id="preview-title"></h3>
+        <h1 id="preview-title"></h1>
         <p id="preview-content"></p>
     </div>
 </div>
